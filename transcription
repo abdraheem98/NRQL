@@ -4,4 +4,3 @@ WHERE kind = 'video'
   AND environment IN ({{ environment }})
   AND scale_unit IN ({{ scale_unit }})
   AND stage = 'Transcription'
-SINCE 7 days AGO UNTIL NOW
