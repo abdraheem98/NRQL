@@ -1,0 +1,12 @@
+CREATE TABLE employees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    hire_data DATE,
+    job_title VARCHAR(100)
+);
+
+
+INSERT INTO employees (first_name, last_name, email, hire_data, job_title)
+VALUES ('Dev' , 'sangwan', 'devsangwan@gmail.com, '12-11-2024', 'SRE engineer');  

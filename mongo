@@ -1,0 +1,9 @@
+SELECT max(mongodb_collstats_storageStats_storageSize) 
+FROM Metric 
+WHERE metricName = 'your_metric_name' 
+  AND environment = '$environment' 
+  AND scale_unit = '$scale_unit' 
+  AND mongo_cluster = '$mongo_cluster' 
+FACET database, collection 
+LIMIT 10 
+SINCE 6 hours ago

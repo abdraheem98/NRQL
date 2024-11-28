@@ -1,0 +1,5 @@
+SELECT (average(otel_content_conversion_duration_count) * cardinality(otel_content_conversion_duration_count)) FROM Metric  WHERE environment IN ({{  environment }})
+AND scale_unit IN ( {{ scale_unit }} )
+AND kind='video'
+SINCE 60 MINUTES AGO UNTIL NOW 
+FACET stage 

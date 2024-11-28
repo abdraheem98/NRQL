@@ -1,0 +1,18 @@
+SELECT 
+  
+    rate(max(mongodb_ss_metrics_queryExecutor_scanned), 1 minute)
+    / 
+    rate(filter(max(mongodb_ss_metrics_document), WHERE doc_op_type = 'returned'), 1 minute)
+    AS 'Scanned Indices per Returned Doc',
+  
+  
+    rate(max(mongodb_ss_metrics_queryExecutor_scannedObjects), 1 minute)
+    / 
+    rate(filter(max(mongodb_ss_metrics_document), WHERE doc_op_type = 'returned'), 1 minute)
+    AS 'Scanned Objects per Returned Doc'
+FROM Metric 
+WHERE environment = 'production0' 
+  AND scale_unit = 'su0' 
+  AND mongo_cluster = 'mongo-a'
+SINCE 6 hours ago 
+TIMESERIES 1 minute

@@ -1,0 +1,8 @@
+SELECT
+
+sum(otel_content_conversion_duration_count) AS'Total Duration Count',
+sum(otel_content_conversion_complete_succeded) AS 'Complete Success Count'
+FROM Metric WHERE environment IN ({{  environment }}) 
+AND scale_unit IN ( {{ scale_unit }} )
+AND kind='video'
+FACET stage 

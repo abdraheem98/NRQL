@@ -1,0 +1,18 @@
+SELECT 
+  (
+    average(mongodb_ss_metrics_queryExecutor_scanned) 
+    / 
+    filter(average(mongodb_ss_metrics_document), WHERE doc_op_type = 'returned')
+  ) AS 'Scanned Indices per Returned Doc',
+  
+  (
+    average(mongodb_ss_metrics_queryExecutor_scannedObjects) 
+    / 
+    filter(average(mongodb_ss_metrics_document), WHERE doc_op_type = 'returned')
+  ) AS 'Scanned Objects per Returned Doc'
+FROM Metric 
+WHERE environment = 'production0' 
+  AND scale_unit = 'su0' 
+  AND mongo_cluster = 'mongo-a'
+SINCE 6 hours ago 
+TIMESERIES 1 minute

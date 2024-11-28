@@ -1,0 +1,7 @@
+SELECT sum(otel_content_conversion_duration_count) AS 'Total for Transcription'
+FROM Metric
+WHERE kind = 'video'
+  AND environment IN ({{ environment }})
+  AND scale_unit IN ({{ scale_unit }})
+  AND stage = 'Transcription'
+SINCE 7 days AGO UNTIL NOW

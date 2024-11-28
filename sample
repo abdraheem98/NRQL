@@ -1,0 +1,20 @@
+SELECT 
+  sum(otel_content_conversion_duration_count) AS 'Total Duration Count',
+  sum(otel_content_conversion_complete_succeeded) AS 'Total Successful Completions',
+  sum(filter(otel_content_conversion_duration_count, WHERE stage = 'Transcription')) AS 'Transcription Duration Count',
+  sum(filter(otel_content_conversion_duration_count, WHERE stage = 'Import')) AS 'Import Duration Count',
+  sum(filter(otel_content_conversion_duration_count, WHERE stage = 'PreviewGeneration')) AS 'PreviewGeneration Duration Count',
+  sum(filter(otel_content_conversion_duration_count, WHERE stage = 'ThumbnailGeneration')) AS 'ThumbnailGeneration Duration Count',
+  sum(filter(otel_content_conversion_duration_count, WHERE stage = 'MetadataExtraction')) AS 'MetadataExtraction Duration Count',
+  percentage(sum(filter(otel_content_conversion_duration_count, WHERE stage = 'Transcription')), sum(otel_content_conversion_duration_count)) AS 'Transcription Percentage',
+  percentage(sum(filter(otel_content_conversion_duration_count, WHERE stage = 'Import')), sum(otel_content_conversion_duration_count)) AS 'Import Percentage',
+  percentage(sum(filter(otel_content_conversion_duration_count, WHERE stage = 'PreviewGeneration')), sum(otel_content_conversion_duration_count)) AS 'PreviewGeneration Percentage',
+  percentage(sum(filter(otel_content_conversion_duration_count, WHERE stage = 'ThumbnailGeneration')), sum(otel_content_conversion_duration_count)) AS 'ThumbnailGeneration Percentage',
+  percentage(sum(filter(otel_content_conversion_duration_count, WHERE stage = 'MetadataExtraction')), sum(otel_content_conversion_duration_count)) AS 'MetadataExtraction Percentage'
+FROM Metric 
+WHERE environment IN ({{ environment }})
+  AND scale_unit IN ({{ scale_unit }})
+  AND kind = 'video'
+  AND otel_content_conversion_complete_succeeded IS NOT NULL
+SINCE 60 minutes AGO UNTIL NOW
+FACET stage

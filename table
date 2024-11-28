@@ -1,0 +1,18 @@
+SELECT
+  sum(otel_content_conversion_duration_count) AS 'Total Duration Count',
+  sum(otel_content_conversion_complete_succeeded) AS 'Complete Success Count',
+
+  filter(sum(otel_content_conversion_duration_count), WHERE stage = 'Transcription') AS 'Transcription Duration Count',
+  filter(sum(otel_content_conversion_duration_count), WHERE stage = 'Import') AS 'Import Duration Count',
+
+  (filter(sum(otel_content_conversion_duration_count), WHERE stage = 'Transcription') / sum(otel_content_conversion_duration_count)) * 100 AS 'Transcription Percentage',
+  (filter(sum(otel_content_conversion_duration_count), WHERE stage = 'Import') / sum(otel_content_conversion_duration_count)) * 100 AS 'Import Percentage',
+
+  filter(sum(otel_content_conversion_complete_succeeded), WHERE stage = 'Transcription') AS 'Transcription Success Count',
+  filter(sum(otel_content_conversion_complete_succeeded), WHERE stage = 'Import') AS 'Import Success Count'
+FROM Metric
+WHERE environment IN ({{ environment }})
+AND scale_unit IN ({{ scale_unit }})
+AND kind = 'video'
+FACET stage
+SINCE 6 hours AGO

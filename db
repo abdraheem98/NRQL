@@ -1,0 +1,15 @@
+SELECT 
+  max(mongodb_collstats_storageStats_count) AS 'Documents',
+  average(mongodb_collstats_storageStats_size / mongodb_collstats_storageStats_count) AS 'Mean Doc Size (B)',
+  max(mongodb_collstats_storageStats_size)/1073741824 AS 'Data Size (GB)',
+  max(mongodb_collstats_storageStats_storageSize)/1073741824 AS 'Compressed Size (GB)',
+  max(mongodb_collstats_storageStats_nindexes) AS 'Index Count',
+  max(mongodb_collstats_storageStats_totalIndexSize)/1073741824 AS 'Total Index Size (GB)'
+FROM Metric 
+WHERE environment = {{environment}} 
+  AND scale_unit = {{scale_unit}} 
+  AND mongo_cluster = {{mongo_cluster}} 
+FACET tuple(database, collection) 
+LIMIT 100 
+SINCE 6 hours ago
+
