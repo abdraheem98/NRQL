@@ -6,4 +6,4 @@ WHERE metricName = 'your_metric_name'
   AND mongo_cluster = '$mongo_cluster' 
 FACET database, collection 
 LIMIT 10 
-SINCE 6 hours ago
+
